@@ -80,7 +80,7 @@ docker push your-dockerhub-username/your-app-name
 
 ## 📷 Architecture Diagram
 
-![Architecture](.k8s-cicd-architecture.io)
+![Architecture](k8s-cicd-architecture.io)
 
 ---
 
