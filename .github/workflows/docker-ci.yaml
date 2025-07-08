@@ -1,0 +1,44 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'cicd/**'
+      - 'cicd/app/Dockerfile'
+      - 'cicd/app/index.html'
+      - '.github/workflows/docker-ci.yaml'
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:    
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: inputs
+        id: inputs
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y git
+          # Get the current git commit ID and set it as an output variable
+          # This will be used to tag the Docker image
+          echo "commit_id=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}          
+
+      - name: Build and tag Docker image
+        run: |
+          cd cicd/app
+          #Here we are using buildx to build the image and girhub runner number
+          docker buildx build -t ${{ secrets.DOCKER_USERNAME }}/nginx-sample-app:${{ github.run_number }}-${{ env.commit_id }} .
+
+      - name: Push Docker image
+        run: |          
+          docker push ${{ secrets.DOCKER_USERNAME }}/nginx-sample-app:${{ github.run_number }}-${{ env.commit_id }}
