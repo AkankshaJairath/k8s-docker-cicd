@@ -14,9 +14,11 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: akanksha3112/my-nginx-app:latest
+        image: akanksha3112/nginx-sample-app:tagname
         ports:
         - containerPort: 80
+      imagePullSecrets:
+      - name: dockerhub-secret
 ---
 apiVersion: v1
 kind: Service
