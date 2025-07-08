@@ -31,4 +31,4 @@ spec:
   - protocol: TCP
     port: 8080        # Service port
     targetPort: 80    # Container port
-  type: NodePort      # Or use 'LoadBalancer' if on cloud
+  type: NodePort
