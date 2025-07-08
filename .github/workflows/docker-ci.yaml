@@ -42,3 +42,7 @@ jobs:
       - name: Push Docker image
         run: |          
           docker push ${{ secrets.DOCKER_USERNAME }}/nginx-sample-app:${{ github.run_number }}-${{ env.commit_id }}
+      - name: Add Tag in manifestfile
+        run: |
+          sed -i 's/tagname/${{ github.run_number }}-${{ env.commit_id }}/g' app_manifest.yaml
+          cat app_manifest.yaml
