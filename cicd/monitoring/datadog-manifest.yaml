@@ -8,14 +8,14 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: datadog-agent
-  namespace: datadog
+  namespace: default
 
 ---
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: datadog-agent
-  namespace: datadog
+  namespace: default
   labels:
     app: datadog-agent
 spec:
